@@ -10,6 +10,7 @@ import './App.scss';
 import Home from './Home';
 import Login from './Login';
 import Register from './Register';
+import Favourites from './Favourites';
 
 export default function App() {
   return (
@@ -17,12 +18,14 @@ export default function App() {
       <nav>
         <ul>
           <li><Link to="/">Home</Link></li>
+          <li><Link to="/favourites">Favourite providers</Link></li>
           <li><Link to="/login">Login</Link></li>
           <li><Link to="/register">New user</Link></li>
         </ul>
       </nav>
 
       <Switch>
+        <Route path="/favourites"><Favourites /></Route>
         <Route path="/login"><Login /></Route>
         <Route path="/register"><Register /></Route>
         <Route path="/"><Home /></Route>
