@@ -23,7 +23,7 @@ export default function Category() {
       <h2>Services</h2>
       {catServices}
       <Switch>
-        <Route path={`/${categorySlug}/:id`}><Service /></Route>
+        <Route path={`/${categorySlug}/:serviceSlug`}><Service /></Route>
       </Switch>
     </Router>
   );
