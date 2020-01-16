@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 export default function Provider(props) {
   const [state, setState] = React.useState({ message: '' });
@@ -13,8 +15,15 @@ export default function Provider(props) {
     console.log(state.message);
   }
 
+  function toggleFavourite() {
+    console.log('toggle');
+  }
+
   return (
     <div>
+      <button type="button" onClick={toggleFavourite}>
+        <FontAwesomeIcon icon={faHeart} />
+      </button>
       {name}
       <img src={photo} alt={name} />
       <input type="text" name="messsage" onChange={handleChange} />
