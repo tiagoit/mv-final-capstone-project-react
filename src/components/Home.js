@@ -1,35 +1,25 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from 'react-router-dom';
+import Category from './Category';
+import categories from '../constants/categories';
+import { prettifySlug } from '../helpers';
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <Router>
+      <h2>Categories</h2>
+      <ul>
+        {Object.keys(categories).map(c => (<li key={c}><Link to={`/${c}`}>{prettifySlug(c)}</Link></li>))}
+      </ul>
+
+      <Switch>
+        <Route path="/:categorySlug"><Category /></Route>
+      </Switch>
+    </Router>
   );
 }
-
-/*
-      <div>
-        <h2>Accounts</h2>
-
-        <ul>
-          <li>
-            <Link to="/netflix">Netflix</Link>
-          </li>
-          <li>
-            <Link to="/zillow-group">Zillow Group</Link>
-          </li>
-          <li>
-            <Link to="/yahoo">Yahoo</Link>
-          </li>
-          <li>
-            <Link to="/modus-create">Modus Create</Link>
-          </li>
-        </ul>
-
-        <Switch>
-          <Route path="/:id">
-            <Child />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
- */
