@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions';
 
-const Register = ({ login }) => {
+const Register = ({ user, login }) => {
   const [state, setState] = React.useState({ name: '', email: '', password: '', passwordConfirmation: '', error: false });
 
   const handleChange = (ev) => {
@@ -28,11 +28,12 @@ const Register = ({ login }) => {
         setState({ error: true });
       } else {
         localStorage.setItem('token', data.jwt);
-        login(data.user);
+        login({ name: data.name, email: data.email });
       }
     });
   };
 
+  if (state.user) return <Redirect to="/" />;
   return (
     <div>
       <h2>Register</h2>
@@ -50,11 +51,17 @@ const Register = ({ login }) => {
 };
 
 Register.propTypes = {
+  user: PropTypes.shape({
+    name: PropTypes.string,
+    email: PropTypes.string,
+  }),
   login: PropTypes.func.isRequired,
 };
+Register.defaultProps = { user: null };
 
+const mapStateToProps = (state) => ({ user: state.auth.user });
 const mapDispatchToProps = (dispatch) => ({
   login: user => dispatch(loginAction(user)),
 });
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
