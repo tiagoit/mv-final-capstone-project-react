@@ -14,8 +14,8 @@ const Login = ({ login }) => {
   };
 
   const handleSubmit = (ev) => {
-    setState({ error: false });
     ev.preventDefault();
+    setState({ error: false });
     const API_URL = 'http://localhost:4000';
     fetch(`${API_URL}/auth/login`, {
       method: 'POST',
