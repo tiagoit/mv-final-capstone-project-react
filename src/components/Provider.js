@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { toggleFavouriteAction } from '../redux/actions';
 
-const Provider = ({ provider, toggleFavourite, isLoggedIn }) => {
+const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
   const [state, setState] = React.useState({ message: '', messageSent: false });
 
   const handleChange = (ev) => {
@@ -23,7 +23,7 @@ const Provider = ({ provider, toggleFavourite, isLoggedIn }) => {
 
   return (
     <div>
-      <button type="button" onClick={() => toggleFavourite(provider.id)}>
+      <button type="button" onClick={() => rxToggleFavourite(provider.id)}>
         <FontAwesomeIcon icon={faHeart} />
       </button>
       {provider.name}
@@ -44,7 +44,7 @@ Provider.propTypes = {
     name: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequired,
   }).isRequired,
-  toggleFavourite: PropTypes.func.isRequired,
+  rxToggleFavourite: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
@@ -53,7 +53,7 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
 });
 const mapDispatchToProps = (dispatch) => ({
-  toggleFavourite: (id) => dispatch(toggleFavouriteAction(id)),
+  rxToggleFavourite: (id) => dispatch(toggleFavouriteAction(id)),
 });
 
 export default connect(
