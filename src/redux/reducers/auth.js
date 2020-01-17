@@ -6,8 +6,6 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  console.log('REDUCER: auth: ', { action });
-
   const { user } = action.payload || {};
   switch (action.type) {
     case LOGIN:

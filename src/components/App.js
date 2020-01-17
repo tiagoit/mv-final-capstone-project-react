@@ -10,27 +10,31 @@ import Register from './Register';
 import Favourites from './Favourites';
 import { logoutAction } from '../redux/actions';
 
-const App = ({ isLoggedIn, user, logout }) => (
-  <Router>
-    <nav>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
-        {!isLoggedIn && <li><Link to="/register">New user</Link></li>}
-        {isLoggedIn && <li><Link to="/favourites">Favourite providers</Link></li>}
-        {isLoggedIn && <li>{user.name}</li>}
-        {isLoggedIn && <li><button type="button" onClick={() => logout()}>Logout</button></li>}
-      </ul>
-    </nav>
+const App = ({ isLoggedIn, user, logout }) => {
+  return (
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
+            {!isLoggedIn && <li><Link to="/register">New user</Link></li>}
+            {isLoggedIn && <li><Link to="/favourites">Favourite providers</Link></li>}
+            {isLoggedIn && <li>{user.name}</li>}
+            {isLoggedIn && <li><button type="button" onClick={() => logout()}>Logout</button></li>}
+          </ul>
+        </nav>
 
-    <Switch>
-      <Route path="/favourites"><Favourites /></Route>
-      <Route path="/login"><Login /></Route>
-      <Route path="/register"><Register /></Route>
-      <Route path="/"><Home /></Route>
-    </Switch>
-  </Router>
-);
+        <Switch>
+          <Route path="/favourites"><Favourites /></Route>
+          <Route path="/login"><Login /></Route>
+          <Route path="/register"><Register /></Route>
+          <Route path="/"><Home /></Route>
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 App.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,

@@ -12,16 +12,14 @@ import Service from './Service';
 
 const Category = () => {
   const { categorySlug } = useParams();
-  const catServices = categories[categorySlug].map(serviceSlug => (
-    <Link to={`/${categorySlug}/${serviceSlug}`} key={serviceSlug}>
-      {prettifySlug(serviceSlug)}
-    </Link>
-  ));
-
   return (
     <Router>
       <h2>Services</h2>
-      {catServices}
+      {categories[categorySlug].map(serviceSlug => (
+        <Link to={`/${categorySlug}/${serviceSlug}`} key={serviceSlug}>
+          {prettifySlug(serviceSlug)}
+        </Link>
+      ))}
       <Switch>
         <Route path={`/${categorySlug}/:serviceSlug`}><Service /></Route>
       </Switch>

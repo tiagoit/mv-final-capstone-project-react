@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions';
 
-const Register = ({ user, login }) => {
+const Register = ({ login, isLoggedIn }) => {
   const [state, setState] = React.useState({ name: '', email: '', password: '', passwordConfirmation: '', error: false });
 
   const handleChange = (ev) => {
@@ -33,7 +33,7 @@ const Register = ({ user, login }) => {
     });
   };
 
-  if (state.user) return <Redirect to="/" />;
+  if (isLoggedIn) return <Redirect to="/" />;
   return (
     <div>
       <h2>Register</h2>
@@ -51,15 +51,11 @@ const Register = ({ user, login }) => {
 };
 
 Register.propTypes = {
-  user: PropTypes.shape({
-    name: PropTypes.string,
-    email: PropTypes.string,
-  }),
   login: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
-Register.defaultProps = { user: null };
 
-const mapStateToProps = (state) => ({ user: state.auth.user });
+const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn });
 const mapDispatchToProps = (dispatch) => ({
   login: user => dispatch(loginAction(user)),
 });

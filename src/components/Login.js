@@ -1,11 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loginAction } from '../redux/actions';
 
-const Login = ({ login }) => {
+const Login = ({ login, isLoggedIn }) => {
   const [state, setState] = React.useState({ email: '', error: false });
 
   const handleChange = (ev) => {
@@ -34,6 +34,7 @@ const Login = ({ login }) => {
     });
   };
 
+  if (isLoggedIn) return <Redirect to="/" />;
   return (
     <div>
       <h2>Login</h2>
@@ -50,10 +51,12 @@ const Login = ({ login }) => {
 
 Login.propTypes = {
   login: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
+const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn });
 const mapDispatchToProps = (dispatch) => ({
   login: user => dispatch(loginAction(user)),
 });
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

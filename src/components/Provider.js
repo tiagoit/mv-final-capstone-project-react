@@ -5,29 +5,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { toggleFavouriteAction } from '../redux/actions';
 
-const Provider = ({ provider, toggleFavourite }) => {
-  const [state, setState] = React.useState({ message: '' });
+const Provider = ({ provider, toggleFavourite, isLoggedIn }) => {
+  const [state, setState] = React.useState({ message: '', messageSent: false });
 
   const handleChange = (ev) => {
     setState({ ...state, [ev.target.name]: ev.target.value });
   };
 
   const handleMessage = () => {
-    console.log(state.message);
+    setState({ messageSent: true });
+  };
+
+  // TODO: How to use <Link to="/login" />
+  const redirectToLogin = () => {
+    document.location.href = '/login';
   };
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={() => toggleFavourite(provider.id)}
-      >
+      <button type="button" onClick={() => toggleFavourite(provider.id)}>
         <FontAwesomeIcon icon={faHeart} />
       </button>
       {provider.name}
       <img src={provider.photo} alt={provider.name} />
-      <input type="text" name="messsage" onChange={handleChange} />
-      <button type="button" onClick={handleMessage}>Send</button>
+
+      {isLoggedIn && <input type="text" name="messsage" onChange={handleChange} />}
+      {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
+
+      {!isLoggedIn && <button type="button" onClick={redirectToLogin}>Login to send message</button>}
+      {state.messageSent && <div>Message sent. Await the provider answer!</div>}
     </div>
   );
 };
@@ -39,9 +45,13 @@ Provider.propTypes = {
     photo: PropTypes.string.isRequired,
   }).isRequired,
   toggleFavourite: PropTypes.func.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = (state) => ({ favourites: state.providers.favourites });
+const mapStateToProps = (state) => ({
+  favourites: state.providers.favourites,
+  isLoggedIn: state.auth.isLoggedIn,
+});
 const mapDispatchToProps = (dispatch) => ({
   toggleFavourite: (id) => dispatch(toggleFavouriteAction(id)),
 });
