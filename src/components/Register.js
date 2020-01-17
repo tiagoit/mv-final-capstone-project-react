@@ -1,18 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function Register() {
+const Register = () => {
   const [state, setState] = React.useState({ name: '', email: '' });
 
-  function handleChange(ev) {
+  const handleChange = (ev) => {
     const value = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value;
     setState({ ...state, [ev.target.name]: value });
-  }
+  };
 
-  function handleSubmit(ev) {
+  const handleSubmit = (ev) => {
     ev.preventDefault();
     console.log(state);
-  }
+  };
 
   return (
     <div>
@@ -25,4 +25,5 @@ export default function Register() {
       Already registered? <Link to="/login">Login</Link>
     </div>
   );
-}
+};
+export default Register;

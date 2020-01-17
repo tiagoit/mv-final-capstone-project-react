@@ -6,11 +6,11 @@ import {
   Link,
   useParams,
 } from 'react-router-dom';
-import { prettifySlug } from '../helpers';
+import prettifySlug from '../helpers';
 import categories from '../constants/categories';
 import Service from './Service';
 
-export default function Category() {
+const Category = () => {
   const { categorySlug } = useParams();
   const catServices = categories[categorySlug].map(serviceSlug => (
     <Link to={`/${categorySlug}/${serviceSlug}`} key={serviceSlug}>
@@ -27,4 +27,5 @@ export default function Category() {
       </Switch>
     </Router>
   );
-}
+};
+export default Category;

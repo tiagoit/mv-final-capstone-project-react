@@ -1,13 +1,14 @@
-import TOGGLE_FAVOURITE_PROVIDER from '../actionTypes';
+import TOGGLE_FAVOURITE from '../actionTypes';
 
 const initialState = {
   favourites: [],
-  loggedIn: false,
 };
 
 export default function (state = initialState, action) {
+  console.log('REDUCER: providers: ', { action });
+
   switch (action.type) {
-    case TOGGLE_FAVOURITE_PROVIDER: {
+    case TOGGLE_FAVOURITE: {
       const { id } = action.payload;
       let newFavourites;
       if (state.favourites.includes(id)) {

@@ -1,7 +1,7 @@
-import TOGGLE_FAVOURITE_PROVIDER from './actionTypes';
+import TOGGLE_FAVOURITE from './actionTypes';
 
-const toggleFavouriteProvider = id => ({
-  type: TOGGLE_FAVOURITE_PROVIDER,
+const toggleFavouriteAction = id => ({
+  type: TOGGLE_FAVOURITE,
   payload: { id },
 });
-export default toggleFavouriteProvider;
+export default toggleFavouriteAction;
