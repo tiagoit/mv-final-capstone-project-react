@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Category from './Category';
 import categories from '../constants/categories';
-import prettifySlug from '../helpers';
+import { prettifySlug } from '../helpers';
 
 const Home = () => (
   <Router>
@@ -17,7 +12,7 @@ const Home = () => (
     </ul>
 
     <Switch>
-      <Route path="/:categorySlug"><Category /></Route>
+      <Route path="/:category"><Category /></Route>
     </Switch>
   </Router>
 );

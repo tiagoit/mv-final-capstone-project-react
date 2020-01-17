@@ -28,6 +28,8 @@ const Register = ({ login, isLoggedIn }) => {
         setState({ error: true });
       } else {
         localStorage.setItem('token', data.jwt);
+        localStorage.setItem('name', data.user.name);
+        localStorage.setItem('email', data.user.email);
         login({ name: data.name, email: data.email });
       }
     });

@@ -5,8 +5,6 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
-  console.log('REDUCER: providers: ', { action });
-
   switch (action.type) {
     case TOGGLE_FAVOURITE: {
       const { id } = action.payload;

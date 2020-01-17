@@ -26,6 +26,7 @@
         "import/no-unresolved": "off",
         "arrow-parens": "off",
         "react/jsx-one-expression-per-line": "off",
-        "object-curly-newline": "off"
+        "object-curly-newline": "off",
+        "import/prefer-default-export": "off"
     }
 }
