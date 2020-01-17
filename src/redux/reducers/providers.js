@@ -1,4 +1,4 @@
-import TOGGLE_FAVOURITE from '../actionTypes';
+import { TOGGLE_FAVOURITE } from '../actionTypes';
 
 const initialState = {
   favourites: [],
@@ -18,10 +18,7 @@ export default function (state = initialState, action) {
       } else {
         newFavourites = [...state.favourites, id];
       }
-      return {
-        ...state,
-        favourites: newFavourites,
-      };
+      return { ...state, favourites: newFavourites };
     }
     default:
       return state;

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import toggleFavouriteAction from '../redux/actions';
+import { toggleFavouriteAction } from '../redux/actions';
 
 const Provider = ({ provider, toggleFavourite }) => {
   const [state, setState] = React.useState({ message: '' });

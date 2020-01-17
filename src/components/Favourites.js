@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import toggleFavouriteAction from '../redux/actions';
+import { toggleFavouriteAction } from '../redux/actions';
 import Provider from './Provider';
 import providers from '../constants/providers';
 

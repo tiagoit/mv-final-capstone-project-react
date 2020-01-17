@@ -1,7 +1,11 @@
-import TOGGLE_FAVOURITE from './actionTypes';
+import { LOGIN, TOGGLE_FAVOURITE } from './actionTypes';
 
-const toggleFavouriteAction = id => ({
+export const toggleFavouriteAction = id => ({
   type: TOGGLE_FAVOURITE,
   payload: { id },
 });
-export default toggleFavouriteAction;
+
+export const loginAction = user => ({
+  type: LOGIN,
+  payload: { user },
+});
