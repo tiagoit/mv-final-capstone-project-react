@@ -15,8 +15,7 @@ const Register = ({ login, isLoggedIn }) => {
   const handleSubmit = (ev) => {
     ev.preventDefault();
     setState({ error: false });
-    const API_URL = 'http://localhost:4000';
-    fetch(`${API_URL}/users`, {
+    fetch(`${process.env.REACT_APP_API_URL}/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

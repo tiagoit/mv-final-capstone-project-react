@@ -16,8 +16,7 @@ const Login = ({ login, isLoggedIn }) => {
   const handleSubmit = (ev) => {
     ev.preventDefault();
     setState({ error: false });
-    const API_URL = 'http://localhost:4000';
-    fetch(`${API_URL}/auth/login`, {
+    fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
