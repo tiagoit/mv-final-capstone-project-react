@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -16,11 +17,6 @@ const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
     setState({ messageSent: true });
   };
 
-  // TODO: How to use <Link to="/login" />
-  const redirectToLogin = () => {
-    document.location.href = '/login';
-  };
-
   return (
     <div>
       <button type="button" onClick={() => rxToggleFavourite(provider.id)}>
@@ -32,7 +28,7 @@ const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
       {isLoggedIn && <input type="text" name="messsage" onChange={handleChange} />}
       {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
 
-      {!isLoggedIn && <button type="button" onClick={redirectToLogin}>Login to send message</button>}
+      {!isLoggedIn && <Link to="/login">Login</Link>}
       {state.messageSent && <div>Message sent. Await the provider answer!</div>}
     </div>
   );

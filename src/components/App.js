@@ -6,7 +6,9 @@ import { AppBar, Container, Box, Button, Toolbar, Typography, IconButton, Link, 
 import { AccountCircle } from '@material-ui/icons';
 
 import './App.scss';
-import Home from './Home';
+import CategoriesList from './CategoriesList';
+import ServicesList from './ServicesList';
+import ProvidersList from './ProvidersList';
 import Login from './Login';
 import Register from './Register';
 import Favourites from './Favourites';
@@ -84,10 +86,12 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
       <Container maxWidth="sm">
         <Box my={4}>
           <Switch>
-            <Route path="/favourites"><Favourites /></Route>
-            <Route path="/login"><Login /></Route>
-            <Route path="/register"><Register /></Route>
-            <Route path="/"><Home /></Route>
+            <Route exact path="/favourites"><Favourites /></Route>
+            <Route exact path="/login"><Login /></Route>
+            <Route exact path="/register"><Register /></Route>
+            <Route exact path="/category/:category/service/:service"><ProvidersList /></Route>
+            <Route exact path="/category/:category"><ServicesList /></Route>
+            <Route exact path="/"><CategoriesList /></Route>
           </Switch>
         </Box>
       </Container>
