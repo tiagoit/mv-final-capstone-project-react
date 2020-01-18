@@ -1,0 +1,13 @@
+div.services {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  a { 
+    margin-bottom: 8px; 
+    &.active {
+      background-color: #556cd6;
+      color: #fff;
+    }
+  }
+}

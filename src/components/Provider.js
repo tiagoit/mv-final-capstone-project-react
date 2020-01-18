@@ -2,11 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { ListItem, ListItemAvatar, Avatar, ListItemText, IconButton } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+
 import { toggleFavouriteAction } from '../redux/actions';
 
-const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
+const Provider = ({ provider, favourites, rxToggleFavourite, isLoggedIn }) => {
   const [state, setState] = React.useState({ message: '', messageSent: false });
 
   const handleChange = (ev) => {
@@ -14,23 +16,38 @@ const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
   };
 
   const handleMessage = () => {
-    setState({ messageSent: true });
+    setState({ messageSent: true, message: '' });
   };
 
-  return (
-    <div>
-      <button type="button" onClick={() => rxToggleFavourite(provider.id)}>
-        <FontAwesomeIcon icon={faHeart} />
-      </button>
-      {provider.name}
-      <img src={provider.photo} alt={provider.name} />
-
-      {isLoggedIn && <input type="text" name="messsage" onChange={handleChange} />}
+  const messageForm = (
+    <span>
+      {isLoggedIn && <input type="text" name="message" value={state.message} onChange={handleChange} />}
       {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
+      {state.messageSent && <span>Message sent. Await the provider answer!</span>}
+    </span>
+  );
 
-      {!isLoggedIn && <Link to="/login">Login to message provider</Link>}
-      {state.messageSent && <div>Message sent. Await the provider answer!</div>}
-    </div>
+  const secondary = isLoggedIn ? messageForm : (<Link to="/login">Login to message</Link>);
+
+  return (
+    <ListItem alignItems="flex-start">
+      <ListItemAvatar>
+        <Avatar alt={provider.name} src={provider.photo} />
+      </ListItemAvatar>
+      <ListItemText
+        primary={provider.name}
+        secondary={secondary}
+      />
+      <IconButton
+        edge="end"
+        aria-label="account of current user"
+        aria-controls="user-menu"
+        aria-haspopup="true"
+        onClick={() => rxToggleFavourite(provider.id)}
+        color="inherit"
+      >{favourites.includes(provider.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+      </IconButton>
+    </ListItem>
   );
 };
 
@@ -42,6 +59,7 @@ Provider.propTypes = {
   }).isRequired,
   rxToggleFavourite: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  favourites: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
