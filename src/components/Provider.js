@@ -28,7 +28,7 @@ const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
       {isLoggedIn && <input type="text" name="messsage" onChange={handleChange} />}
       {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
 
-      {!isLoggedIn && <Link to="/login">Login</Link>}
+      {!isLoggedIn && <Link to="/login">Login to message provider</Link>}
       {state.messageSent && <div>Message sent. Await the provider answer!</div>}
     </div>
   );
