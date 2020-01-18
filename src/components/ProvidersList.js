@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 
 import Provider from './Provider';
 import providers from '../constants/providers';
-import { prettifySlug } from '../helpers';
 
 const ProvidersList = () => {
   const { service } = useParams();
@@ -11,7 +10,7 @@ const ProvidersList = () => {
 
   return (
     <div>
-      <h2>Providers of service: {prettifySlug(service)}</h2>
+      <h2>Providers</h2>
       {serviceProviders.map(p => <Provider key={`provider-${p.id}`} provider={p} />)}
     </div>
   );

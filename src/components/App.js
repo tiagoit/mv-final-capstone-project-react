@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link as RouterLink } from 'react-router-dom';
+import { Switch, Route, Link as RouterLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { AppBar, Container, Box, Button, Toolbar, Typography, IconButton, Link, Menu, MenuItem } from '@material-ui/core';
@@ -8,7 +8,6 @@ import { AccountCircle } from '@material-ui/icons';
 import './App.scss';
 import CategoriesList from './CategoriesList';
 import ServicesList from './ServicesList';
-import ProvidersList from './ProvidersList';
 import Login from './Login';
 import Register from './Register';
 import Favourites from './Favourites';
@@ -58,7 +57,7 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
   );
 
   return (
-    <Router>
+    <div>
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className="title">
@@ -89,13 +88,12 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
             <Route exact path="/favourites"><Favourites /></Route>
             <Route exact path="/login"><Login /></Route>
             <Route exact path="/register"><Register /></Route>
-            <Route exact path="/category/:category/service/:service"><ProvidersList /></Route>
-            <Route exact path="/category/:category"><ServicesList /></Route>
+            <Route path="/category/:category"><ServicesList /></Route>
             <Route exact path="/"><CategoriesList /></Route>
           </Switch>
         </Box>
       </Container>
-    </Router>
+    </div>
   );
 };
 
