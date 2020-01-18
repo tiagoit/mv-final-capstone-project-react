@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { AppBar, Container, Box, Button, Toolbar, Typography, IconButton, Link, Menu, MenuItem } from '@material-ui/core';
 import { AccountCircle } from '@material-ui/icons';
+import FavoriteIcon from '@material-ui/icons/Favorite';
 
 import './App.scss';
 import CategoriesList from './CategoriesList';
@@ -66,7 +67,18 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
           {!isLoggedIn && <Button color="inherit" component={RouterLink} to="/login">Login</Button>}
           {!isLoggedIn && <Button color="inherit" component={RouterLink} to="/register">New user</Button>}
 
-          {isLoggedIn && <Button color="inherit" component={RouterLink} to="/favourites">Favourites</Button>}
+          {isLoggedIn && (
+            <IconButton
+              edge="end"
+              aria-label="favourite providers"
+              aria-controls="user-menu"
+              aria-haspopup="false"
+              color="inherit"
+              component={RouterLink}
+              to="/favourites"
+            ><FavoriteIcon />
+            </IconButton>
+          )}
           {isLoggedIn && (
             <IconButton
               edge="end"
