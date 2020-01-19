@@ -27,6 +27,7 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
   }
 
   const handleMenuOpen = event => {
+    event.preventDefault();
     setAnchorEl(event.currentTarget);
   };
 

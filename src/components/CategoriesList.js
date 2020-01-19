@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import categories from '../constants/categories';
+import placeholders from '../constants/placeholders';
 import { prettifySlug } from '../helpers';
 import './CategoriesList.scss';
 
@@ -18,14 +19,14 @@ const CategoriesList = () => (
       Service categories
     </Typography>
     <div className="cards-container">
-      {Object.keys(categories).map(category => (
+      {Object.keys(categories).map((category, i) => (
         <Card className="card" key={category}>
           <CardActionArea component={RouterLink} to={`/category/${category}`}>
             <CardMedia
               component="img"
               alt="Contemplative Reptile"
               height="140"
-              image={`https://i.picsum.photos/id/${parseInt(Math.random() * 100, 10)}/160/80.jpg`}
+              image={placeholders[i]}
               title="Contemplative Reptile"
             />
             <CardContent>

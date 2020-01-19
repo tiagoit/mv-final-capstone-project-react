@@ -38,15 +38,17 @@ const Provider = ({ provider, favourites, rxToggleFavourite, isLoggedIn }) => {
         primary={provider.name}
         secondary={secondary}
       />
-      <IconButton
-        edge="end"
-        aria-label="account of current user"
-        aria-controls="user-menu"
-        aria-haspopup="true"
-        onClick={() => rxToggleFavourite(provider.id)}
-        color="inherit"
-      >{favourites.includes(provider.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-      </IconButton>
+      {isLoggedIn && (
+        <IconButton
+          edge="end"
+          aria-label="account of current user"
+          aria-controls="user-menu"
+          aria-haspopup="true"
+          onClick={() => rxToggleFavourite(provider.id)}
+          color="inherit"
+        >{favourites.includes(provider.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      )}
     </ListItem>
   );
 };

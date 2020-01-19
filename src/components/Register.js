@@ -26,10 +26,10 @@ const Register = ({ login, isLoggedIn }) => {
       if (data.error) {
         setState({ error: true });
       } else {
-        localStorage.setItem('token', data.jwt);
+        localStorage.setItem('token', data.token);
         localStorage.setItem('name', data.user.name);
         localStorage.setItem('email', data.user.email);
-        login({ name: data.name, email: data.email });
+        login(data.user);
       }
     });
   };
