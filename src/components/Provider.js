@@ -23,7 +23,10 @@ const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFa
       rxAddFavourite(id);
       fetch(`${process.env.REACT_APP_API_URL}/favourites`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: localStorage.getItem('token') },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: localStorage.getItem('token'),
+        },
         body: JSON.stringify({ id }),
       });
     }

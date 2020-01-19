@@ -3,14 +3,29 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { loginAction } from '../redux/actions';
+import { loginAction, addFavouriteAction } from '../redux/actions';
 
-const Login = ({ login, isLoggedIn }) => {
+const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
   const [state, setState] = React.useState({ email: '', error: false });
 
   const handleChange = (ev) => {
     const value = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value;
     setState({ ...state, [ev.target.name]: value, error: false });
+  };
+
+  const fetchFavorites = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/favourites`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authorization: localStorage.getItem('token'),
+      },
+    }).then(resp => resp.json()).then(data => {
+      data.forEach(favorite => {
+        rxAddFavorite(favorite.provider_id);
+      });
+    });
   };
 
   const handleSubmit = (ev) => {
@@ -30,7 +45,8 @@ const Login = ({ login, isLoggedIn }) => {
         localStorage.setItem('token', data.token);
         localStorage.setItem('name', data.user.name);
         localStorage.setItem('email', data.user.email);
-        login(data.user);
+        rxLogin(data.user);
+        fetchFavorites();
       }
     });
   };
@@ -51,13 +67,15 @@ const Login = ({ login, isLoggedIn }) => {
 };
 
 Login.propTypes = {
-  login: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  rxLogin: PropTypes.func.isRequired,
+  rxAddFavorite: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn });
 const mapDispatchToProps = (dispatch) => ({
-  login: user => dispatch(loginAction(user)),
+  rxLogin: user => dispatch(loginAction(user)),
+  rxAddFavorite: id => dispatch(addFavouriteAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
