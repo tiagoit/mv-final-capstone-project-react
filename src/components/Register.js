@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
+
 import { loginAction } from '../redux/actions';
 import AuthAPI from '../api/AuthAPI';
 
@@ -30,7 +32,8 @@ const Register = ({ rxLogin, isLoggedIn }) => {
   if (isLoggedIn) return <Redirect to="/" />;
   return (
     <div>
-      <h2>Register</h2>
+      <Typography variant="h4" component="h1">Register</Typography>
+
       <form onSubmit={handleSubmit}>
         <input type="text" name="name" placeholder="Name" onChange={handleChange} />
         <input type="email" name="email" placeholder="Email" onChange={handleChange} />

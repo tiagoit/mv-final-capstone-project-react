@@ -74,7 +74,4 @@ const mapDispatchToProps = (dispatch) => ({
   rxRemoveFavourite: (id) => dispatch(removeFavouriteAction(id)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Provider);
+export default connect(mapStateToProps, mapDispatchToProps)(Provider);

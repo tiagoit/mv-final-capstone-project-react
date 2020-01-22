@@ -1,12 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Button, Typography } from '@material-ui/core';
 
 import categories from '../constants/categories';
 import placeholders from '../constants/placeholders';
@@ -15,9 +9,8 @@ import './CategoriesList.scss';
 
 const CategoriesList = () => (
   <div>
-    <Typography variant="h4" component="h2" className="page-title">
-      Service categories
-    </Typography>
+    <Typography variant="h4" component="h1">Service categories</Typography>
+
     <div className="cards-container">
       {Object.keys(categories).map((category, i) => (
         <Card className="card" key={category}>
