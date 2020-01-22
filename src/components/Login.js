@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { loginAction, addFavouriteAction } from '../redux/actions';
+import AuthAPI from '../api/AuthAPI';
+import FavouritesAPI from '../api/FavouritesAPI';
 
 const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
   const [state, setState] = React.useState({ email: '', error: false });
@@ -13,42 +15,30 @@ const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
     setState({ ...state, [ev.target.name]: value, error: false });
   };
 
-  const fetchFavorites = () => {
-    fetch(`${process.env.REACT_APP_API_URL}/favourites`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: localStorage.getItem('token'),
-      },
-    }).then(resp => resp.json()).then(data => {
-      data.forEach(favorite => {
-        rxAddFavorite(favorite.provider_id);
-      });
-    });
-  };
-
   const handleSubmit = (ev) => {
     ev.preventDefault();
     setState({ error: false });
-    fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({ email: state.email, password: state.password }),
-    }).then(resp => resp.json()).then(data => {
-      if (data.error) {
-        setState({ error: true });
-      } else {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('name', data.user.name);
-        localStorage.setItem('email', data.user.email);
-        rxLogin(data.user);
-        fetchFavorites();
-      }
-    });
+
+    AuthAPI
+      .login(state.email, state.password)
+      .then(resp => resp.json()).then(data => {
+        if (data.error) {
+          setState({ error: true });
+        } else {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('name', data.user.name);
+          localStorage.setItem('email', data.user.email);
+          rxLogin(data.user);
+
+          FavouritesAPI
+            .getFavourites()
+            .then(resp => resp.json()).then(favourites => {
+              favourites.forEach(favorite => {
+                rxAddFavorite(favorite.provider_id);
+              });
+            });
+        }
+      });
   };
 
   if (isLoggedIn) return <Redirect to="/" />;

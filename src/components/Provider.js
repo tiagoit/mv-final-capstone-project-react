@@ -6,6 +6,7 @@ import { ListItem, ListItemAvatar, Avatar, ListItemText, IconButton } from '@mat
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { addFavouriteAction, removeFavouriteAction } from '../redux/actions';
+import FavouritesAPI from '../api/FavouritesAPI';
 
 const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFavourite }) => {
   const [state, setState] = React.useState({ message: '', messageSent: false });
@@ -15,20 +16,10 @@ const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFa
   const toggleFavourite = (id) => {
     if (favourites.includes(id)) {
       rxRemoveFavourite(id);
-      fetch(`${process.env.REACT_APP_API_URL}/favourites/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: localStorage.getItem('token') },
-      });
+      FavouritesAPI.removeFavourite(id);
     } else {
       rxAddFavourite(id);
-      fetch(`${process.env.REACT_APP_API_URL}/favourites`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: localStorage.getItem('token'),
-        },
-        body: JSON.stringify({ id }),
-      });
+      FavouritesAPI.addFavourite(id);
     }
   };
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions';
+import AuthAPI from '../api/AuthAPI';
 
 const Register = ({ login, isLoggedIn }) => {
   const [state, setState] = React.useState({ name: '', email: '', password: '', passwordConfirmation: '', error: false });
@@ -15,23 +16,19 @@ const Register = ({ login, isLoggedIn }) => {
   const handleSubmit = (ev) => {
     ev.preventDefault();
     setState({ error: false });
-    fetch(`${process.env.REACT_APP_API_URL}/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify({ name: state.name, email: state.email, password: state.password }),
-    }).then(resp => resp.json()).then(data => {
-      if (data.error) {
-        setState({ error: true });
-      } else {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('name', data.user.name);
-        localStorage.setItem('email', data.user.email);
-        login(data.user);
-      }
-    });
+
+    AuthAPI
+      .register(state.name, state.email, state.password)
+      .then(resp => resp.json()).then(data => {
+        if (data.errors) {
+          setState({ error: true });
+        } else {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('name', data.user.name);
+          localStorage.setItem('email', data.user.email);
+          login(data.user);
+        }
+      });
   };
 
   if (isLoggedIn) return <Redirect to="/" />;
