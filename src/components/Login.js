@@ -8,22 +8,18 @@ import AuthAPI from '../api/AuthAPI';
 import FavouritesAPI from '../api/FavouritesAPI';
 
 const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
-  const [state, setState] = React.useState({ email: '', error: false });
-
-  const handleChange = (ev) => {
-    const value = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value;
-    setState({ ...state, [ev.target.name]: value, error: false });
-  };
+  const [form, setForm] = React.useState({ email: '', password: '', valid: true });
+  const handleChange = ev => setForm({ ...form, valid: true, [ev.target.name]: ev.target.value });
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    setState({ error: false });
+    setForm({ ...form, valid: true });
 
     AuthAPI
-      .login(state.email, state.password)
+      .login(form.email, form.password)
       .then(resp => resp.json()).then(data => {
         if (data.error) {
-          setState({ error: true });
+          setForm({ ...form, valid: false });
         } else {
           localStorage.setItem('token', data.token);
           localStorage.setItem('name', data.user.name);
@@ -46,10 +42,10 @@ const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
     <div>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" name="email" placeholder="Email" onChange={handleChange} />
-        <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} />
+        <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} />
         <button type="submit">Login</button>
-        {state.error && <div className="error">Invalid email or password.</div>}
+        {!form.valid && <div className="error">Invalid email or password.</div>}
       </form>
       New user? <Link to="/register">Register</Link>
     </div>

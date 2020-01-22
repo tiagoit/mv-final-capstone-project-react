@@ -5,28 +5,24 @@ import { connect } from 'react-redux';
 import { loginAction } from '../redux/actions';
 import AuthAPI from '../api/AuthAPI';
 
-const Register = ({ login, isLoggedIn }) => {
-  const [state, setState] = React.useState({ name: '', email: '', password: '', passwordConfirmation: '', error: false });
-
-  const handleChange = (ev) => {
-    const value = ev.target.type === 'checkbox' ? ev.target.checked : ev.target.value;
-    setState({ ...state, [ev.target.name]: value });
-  };
+const Register = ({ rxLogin, isLoggedIn }) => {
+  const [form, setForm] = React.useState({ name: '', email: '', password: '', passwordConfirmation: '', errorMessage: '' });
+  const handleChange = ev => setForm({ ...form, errorMessage: '', [ev.target.name]: ev.target.value });
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    setState({ error: false });
+    setForm({ ...form, errorMessage: '' });
 
     AuthAPI
-      .register(state.name, state.email, state.password)
+      .register(form.name, form.email, form.password)
       .then(resp => resp.json()).then(data => {
         if (data.errors) {
-          setState({ error: true });
+          setForm({ ...form, errorMessage: data.errors[0] });
         } else {
           localStorage.setItem('token', data.token);
           localStorage.setItem('name', data.user.name);
           localStorage.setItem('email', data.user.email);
-          login(data.user);
+          rxLogin(data.user);
         }
       });
   };
@@ -41,7 +37,7 @@ const Register = ({ login, isLoggedIn }) => {
         <input type="password" name="password" placeholder="Password" onChange={handleChange} />
         <input type="password" name="passwordConfirmation" placeholder="Password confirmation" onChange={handleChange} />
         <button type="submit">Register</button>
-        {state.error && <div className="error">Please double check the form data.</div>}
+        <div className="error">{form.errorMessage}</div>
       </form>
       Already registered? <Link to="/login">Login</Link>
     </div>
@@ -49,13 +45,13 @@ const Register = ({ login, isLoggedIn }) => {
 };
 
 Register.propTypes = {
-  login: PropTypes.func.isRequired,
+  rxLogin: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn });
 const mapDispatchToProps = (dispatch) => ({
-  login: user => dispatch(loginAction(user)),
+  rxLogin: user => dispatch(loginAction(user)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);

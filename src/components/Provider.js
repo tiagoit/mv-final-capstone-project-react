@@ -10,8 +10,8 @@ import FavouritesAPI from '../api/FavouritesAPI';
 
 const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFavourite }) => {
   const [state, setState] = React.useState({ message: '', messageSent: false });
-  const handleChange = (ev) => setState({ ...state, [ev.target.name]: ev.target.value });
-  const handleMessage = () => setState({ messageSent: true, message: '' });
+  const handleChange = ev => setState({ ...state, [ev.target.name]: ev.target.value });
+  const handleMessage = () => setState({ ...state, message: '', messageSent: true });
 
   const toggleFavourite = (id) => {
     if (favourites.includes(id)) {
@@ -30,18 +30,14 @@ const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFa
       {state.messageSent && <span>Message sent. Await the provider answer!</span>}
     </span>
   );
-
-  const secondary = isLoggedIn ? messageForm : (<Link to="/login">Login to message</Link>);
+  const secondaryListItemText = isLoggedIn ? messageForm : (<Link to="/login">Login to message</Link>);
 
   return (
     <ListItem alignItems="flex-start">
       <ListItemAvatar>
         <Avatar alt={provider.name} src={provider.photo} />
       </ListItemAvatar>
-      <ListItemText
-        primary={provider.name}
-        secondary={secondary}
-      />
+      <ListItemText primary={provider.name} secondary={secondaryListItemText} />
       {isLoggedIn && (
         <IconButton
           edge="end"
