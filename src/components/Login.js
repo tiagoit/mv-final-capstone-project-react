@@ -3,11 +3,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { loginAction, addFavouriteAction } from '../redux/actions';
+import { loginAction } from '../redux/actions';
 import AuthAPI from '../api/AuthAPI';
-import FavouritesAPI from '../api/FavouritesAPI';
 
-const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
+const Login = ({ isLoggedIn, rxLogin }) => {
   const [form, setForm] = React.useState({ email: '', password: '', valid: true });
   const handleChange = ev => setForm({ ...form, valid: true, [ev.target.name]: ev.target.value });
 
@@ -25,14 +24,6 @@ const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
           localStorage.setItem('name', data.user.name);
           localStorage.setItem('email', data.user.email);
           rxLogin(data.user);
-
-          FavouritesAPI
-            .getFavourites()
-            .then(resp => resp.json()).then(favourites => {
-              favourites.forEach(favorite => {
-                rxAddFavorite(favorite.provider_id);
-              });
-            });
         }
       });
   };
@@ -55,13 +46,11 @@ const Login = ({ isLoggedIn, rxLogin, rxAddFavorite }) => {
 Login.propTypes = {
   isLoggedIn: PropTypes.bool.isRequired,
   rxLogin: PropTypes.func.isRequired,
-  rxAddFavorite: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn });
 const mapDispatchToProps = (dispatch) => ({
   rxLogin: user => dispatch(loginAction(user)),
-  rxAddFavorite: id => dispatch(addFavouriteAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

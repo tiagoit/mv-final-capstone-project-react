@@ -12,9 +12,10 @@ import ServicesList from './ServicesList';
 import Login from './Login';
 import Register from './Register';
 import Favourites from './Favourites';
-import { logoutAction, loginAction } from '../redux/actions';
+import { logoutAction, loginAction, addFavouriteAction } from '../redux/actions';
+import FavouritesAPI from '../api/FavouritesAPI';
 
-const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
+const App = ({ isLoggedIn, user, rxLogin, rxLogout, rxAddFavourite }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
 
@@ -24,6 +25,13 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout }) => {
       email: localStorage.getItem('email'),
       token: localStorage.getItem('token'),
     });
+    FavouritesAPI
+      .getFavourites()
+      .then(resp => resp.json()).then(favourites => {
+        favourites.forEach(favorite => {
+          rxAddFavourite(favorite.provider_id);
+        });
+      });
   }
 
   const handleMenuOpen = event => {
@@ -118,11 +126,13 @@ App.propTypes = {
   }).isRequired,
   rxLogin: PropTypes.func.isRequired,
   rxLogout: PropTypes.func.isRequired,
+  rxAddFavourite: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({ isLoggedIn: state.auth.isLoggedIn, user: state.auth.user });
 const mapDispatchToProps = (dispatch) => ({
-  rxLogin: (user) => dispatch(loginAction(user)),
+  rxLogin: user => dispatch(loginAction(user)),
   rxLogout: () => dispatch(logoutAction()),
+  rxAddFavourite: id => dispatch(addFavouriteAction(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(App);
