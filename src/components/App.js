@@ -26,11 +26,12 @@ const App = ({ isLoggedIn, user, rxLogin, rxLogout, rxAddFavourite }) => {
       token: localStorage.getItem('token'),
     });
     FavouritesAPI
-      .getFavourites()
-      .then(resp => resp.json()).then(favourites => {
-        favourites.forEach(favorite => {
-          rxAddFavourite(favorite.provider_id);
-        });
+      .getFavourites().then(favourites => {
+        if (favourites) {
+          favourites.forEach(favorite => {
+            rxAddFavourite(favorite.provider_id);
+          });
+        }
       });
   }
 

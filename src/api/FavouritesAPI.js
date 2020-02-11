@@ -1,8 +1,10 @@
+import apiFetchWrapper from './apiFetchWrapper';
+
 const API_URL = process.env.REACT_APP_API_URL;
 
 const FavouritesAPI = {
   getFavourites: () => (
-    fetch(`${API_URL}/favourites`, {
+    apiFetchWrapper(`${API_URL}/favourites`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -12,7 +14,7 @@ const FavouritesAPI = {
     })
   ),
   addFavourite: (id) => (
-    fetch(`${API_URL}/favourites`, {
+    apiFetchWrapper(`${API_URL}/favourites`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -22,7 +24,7 @@ const FavouritesAPI = {
     })
   ),
   removeFavourite: (id) => (
-    fetch(`${API_URL}/favourites/${id}`, {
+    apiFetchWrapper(`${API_URL}/favourites/${id}`, {
       method: 'DELETE',
       headers: { Authorization: localStorage.getItem('token') },
     })
