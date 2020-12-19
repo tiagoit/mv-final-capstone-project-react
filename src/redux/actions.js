@@ -1,7 +1,12 @@
-import { LOGIN, LOGOUT, TOGGLE_FAVOURITE } from './actionTypes';
+import { LOGIN, LOGOUT, ADD_FAVOURITE, REMOVE_FAVOURITE } from './actionTypes';
 
-export const toggleFavouriteAction = id => ({
-  type: TOGGLE_FAVOURITE,
+export const addFavouriteAction = id => ({
+  type: ADD_FAVOURITE,
+  payload: { id },
+});
+
+export const removeFavouriteAction = id => ({
+  type: REMOVE_FAVOURITE,
   payload: { id },
 });
 

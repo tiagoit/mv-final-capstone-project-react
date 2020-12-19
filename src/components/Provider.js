@@ -1,40 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-solid-svg-icons';
-import { toggleFavouriteAction } from '../redux/actions';
+import { ListItem, ListItemAvatar, Avatar, ListItemText, IconButton } from '@material-ui/core';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { addFavouriteAction, removeFavouriteAction } from '../redux/actions';
+import FavouritesAPI from '../api/FavouritesAPI';
 
-const Provider = ({ provider, rxToggleFavourite, isLoggedIn }) => {
+const Provider = ({ isLoggedIn, provider, favourites, rxAddFavourite, rxRemoveFavourite }) => {
   const [state, setState] = React.useState({ message: '', messageSent: false });
+  const handleChange = ev => setState({ ...state, [ev.target.name]: ev.target.value });
+  const handleMessage = () => setState({ ...state, message: '', messageSent: true });
 
-  const handleChange = (ev) => {
-    setState({ ...state, [ev.target.name]: ev.target.value });
+  const toggleFavourite = (id) => {
+    if (favourites.includes(id)) {
+      rxRemoveFavourite(id);
+      FavouritesAPI.removeFavourite(id);
+    } else {
+      rxAddFavourite(id);
+      FavouritesAPI.addFavourite(id);
+    }
   };
 
-  const handleMessage = () => {
-    setState({ messageSent: true });
-  };
-
-  // TODO: How to use <Link to="/login" />
-  const redirectToLogin = () => {
-    document.location.href = '/login';
-  };
+  const messageForm = (
+    <span>
+      {isLoggedIn && <input type="text" name="message" value={state.message} onChange={handleChange} />}
+      {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
+      {state.messageSent && <span>Message sent. Await the provider answer!</span>}
+    </span>
+  );
+  const secondaryListItemText = isLoggedIn ? messageForm : (<Link to="/login">Login to message</Link>);
 
   return (
-    <div>
-      <button type="button" onClick={() => rxToggleFavourite(provider.id)}>
-        <FontAwesomeIcon icon={faHeart} />
-      </button>
-      {provider.name}
-      <img src={provider.photo} alt={provider.name} />
-
-      {isLoggedIn && <input type="text" name="messsage" onChange={handleChange} />}
-      {isLoggedIn && <button type="button" onClick={handleMessage}>Send</button>}
-
-      {!isLoggedIn && <button type="button" onClick={redirectToLogin}>Login to send message</button>}
-      {state.messageSent && <div>Message sent. Await the provider answer!</div>}
-    </div>
+    <ListItem alignItems="flex-start">
+      <ListItemAvatar>
+        <Avatar alt={provider.name} src={provider.photo} />
+      </ListItemAvatar>
+      <ListItemText primary={provider.name} secondary={secondaryListItemText} />
+      {isLoggedIn && (
+        <IconButton
+          edge="end"
+          aria-label="account of current user"
+          aria-controls="user-menu"
+          aria-haspopup="true"
+          onClick={() => toggleFavourite(provider.id)}
+          color="inherit"
+        >{favourites.includes(provider.id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      )}
+    </ListItem>
   );
 };
 
@@ -44,8 +59,10 @@ Provider.propTypes = {
     name: PropTypes.string.isRequired,
     photo: PropTypes.string.isRequired,
   }).isRequired,
-  rxToggleFavourite: PropTypes.func.isRequired,
+  rxAddFavourite: PropTypes.func.isRequired,
+  rxRemoveFavourite: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired,
+  favourites: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -53,10 +70,8 @@ const mapStateToProps = (state) => ({
   isLoggedIn: state.auth.isLoggedIn,
 });
 const mapDispatchToProps = (dispatch) => ({
-  rxToggleFavourite: (id) => dispatch(toggleFavouriteAction(id)),
+  rxAddFavourite: (id) => dispatch(addFavouriteAction(id)),
+  rxRemoveFavourite: (id) => dispatch(removeFavouriteAction(id)),
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(Provider);
+export default connect(mapStateToProps, mapDispatchToProps)(Provider);

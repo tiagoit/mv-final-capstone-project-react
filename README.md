@@ -30,7 +30,32 @@ The assignment can be found in the [Microverse Inc. Project Requirements](https:
 
 This project can be found in https://github.com/tiagoit/mv-final-capstone-project
 
-### ✨ [live version](http://ferreirati-real-estate-react.herokuapp.com/)
+### ✨ [live version](https://ferreirati-real-estate.herokuapp.com/)
+
+
+## 💻 Serve the APP on localhost
+### Backend
+  - Clone the backend repository `git clone git@github.com:tiagoit/mv-final-capstone-project.git`
+  - Check the branch you want to serve, `development` is the default one. 
+  - This project uses PostgreSQL as RDBMS, it should have a user with the same name as your `OS user` and the database `real_estate_development` create it manually if needed.
+    - `sudo -i -u postgres`
+    - `createdb real_estate_development`
+    - `createdb real_estate_test` 
+    - `create user <YOUR_OS_USERNAME>;`
+    - `grant all privileges on database real_estate_development to <YOUR_OS_USERNAME>;`
+    - `grant all privileges on database real_estate_test to <YOUR_OS_USERNAME>;`
+
+  - Install gems `bundle install`
+  - Execute the migrations `rails db:migrate`
+  - Start the local server `rails server -p 4000`  
+  - Query the API with a tool like Postman or serve the frontend. 
+
+### Frontend
+  - Clone the frontend repository `git clone git@github.com:tiagoit/mv-final-capstone-project-react.git`
+  - Check the branch you want to serve, `development` is the default one.
+  - Install NPM packages `npm install`
+  - Start the local server `npm start`
+  - Open the app `http://localhost:3000`
 
 
 ## 🤝 Contributing
